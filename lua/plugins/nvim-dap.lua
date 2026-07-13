@@ -6,12 +6,14 @@ return {
       "nvim-neotest/nvim-nio",
       "jay-babu/mason-nvim-dap.nvim",
       "theHamsta/nvim-dap-virtual-text",
+      "leoluz/nvim-dap-go",
     },
     config = function()
       local mason_dap = require "mason-nvim-dap"
       local dap = require "dap"
       local ui = require "dapui"
       local dap_virtual_text = require "nvim-dap-virtual-text"
+      require("dap-go").setup()
       local cwd = vim.fn.getcwd()
       local venv_path = cwd .. "/venv/bin/python"
 
@@ -19,7 +21,7 @@ return {
       dap_virtual_text.setup()
 
       mason_dap.setup {
-        ensure_installed = { "cppdbg", "python" },
+        ensure_installed = { "cppdbg", "python", "delve" },
         automatic_installation = true,
         handlers = {
           function(config)
@@ -62,6 +64,31 @@ return {
             program = function()
               return vim.fn.input("Path to executable: ", vim.fn.getcwd() .. "/", "file")
             end,
+          },
+        },
+        go = {
+          {
+            type = "go",
+            name = "Debug",
+            request = "launch",
+            program = "${file}",
+          },
+          {
+            type = "go",
+            name = "Debug (with args)",
+            request = "launch",
+            program = "${file}",
+            args = function()
+              local args_str = vim.fn.input("Args: ")
+              return vim.split(args_str, " ")
+            end,
+          },
+          {
+            type = "go",
+            name = "Debug test",
+            request = "launch",
+            mode = "test",
+            program = "./${relativeFileDirname}",
           },
         },
         python = {

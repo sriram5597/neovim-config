@@ -13,7 +13,7 @@ return {
     },
     config = function()
       require("mason-lspconfig").setup({
-        ensure_installed = { "lua_ls", "ts_ls"},
+        ensure_installed = { "lua_ls", "ts_ls", "gopls" },
         automatic_enable = false
       })
     end
@@ -44,6 +44,18 @@ return {
       })
       lspConfig.html.setup({
         capabilities = capabilities
+      })
+      lspConfig.gopls.setup({
+        capabilities = capabilities,
+        settings = {
+          gopls = {
+            analyses = {
+              unusedparams = true,
+            },
+            staticcheck = true,
+            gofumpt = true,
+          },
+        },
       })
     end
   }

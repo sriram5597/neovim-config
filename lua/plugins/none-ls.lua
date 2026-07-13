@@ -12,6 +12,9 @@ return {
         null_ls.builtins.formatting.isort,
         null_ls.builtins.formatting.black,
         require "none-ls.diagnostics.eslint_d",
+        null_ls.builtins.formatting.gofumpt,
+        null_ls.builtins.formatting.goimports,
+        null_ls.builtins.diagnostics.golangci_lint,
       },
     }
   end,
