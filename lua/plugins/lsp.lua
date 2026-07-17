@@ -21,32 +21,11 @@ return {
   {
     "neovim/nvim-lspconfig",
     config = function()
-      local lspConfig = require("lspconfig")
       local capabilities = require('cmp_nvim_lsp').default_capabilities()
 
-      lspConfig.lua_ls.setup({
-        capabilities = capabilities
-      })
-      lspConfig.ts_ls.setup({
-        capabilities = capabilities
-      })
-      lspConfig.pyright.setup({
-        capabilities = capabilities
-      })
-      lspConfig.ruff.setup({
-        capabilities = capabilities
-      })
-      lspConfig.tailwindcss.setup({
-        capabilities = capabilities
-      })
-      lspConfig.cssls.setup({
-        capabilities = capabilities
-      })
-      lspConfig.html.setup({
-        capabilities = capabilities
-      })
-      lspConfig.gopls.setup({
-        capabilities = capabilities,
+      vim.lsp.config("*", { capabilities = capabilities })
+
+      vim.lsp.config("gopls", {
         settings = {
           gopls = {
             analyses = {
@@ -56,6 +35,11 @@ return {
             gofumpt = true,
           },
         },
+      })
+
+      vim.lsp.enable({
+        "lua_ls", "ts_ls", "pyright", "ruff",
+        "tailwindcss", "cssls", "html", "gopls",
       })
     end
   }
